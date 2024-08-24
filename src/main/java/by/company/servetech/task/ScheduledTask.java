@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 @EnableScheduling
-public class ScheduledTask implements ApplicationContextAware {
+public class ScheduledTask {
 
     @Value("${server.stopTime}")
     private String stopTime;
@@ -26,18 +26,20 @@ public class ScheduledTask implements ApplicationContextAware {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    @Scheduled(cron = "0 */10 * * * *")
-    public void checkStopServerTime() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime dateTimeStop = LocalDateTime.parse(stopTime, formatter);
-
-        if (now.isAfter(dateTimeStop)) {
-            ((ConfigurableApplicationContext) context).close();
-        }
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
-        this.context = context;
-    }
+//    @Scheduled(cron = "0 */10 * * * *")
+//    @Scheduled(fixedDelay = 5000)
+//    public void checkStopServerTime() {
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime dateTimeStop = LocalDateTime.parse(stopTime, formatter);
+//
+//        if (now.isAfter(dateTimeStop)) {
+//            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ((ConfigurableApplicationContext) context).close();
+//                }
+//            }));
+//
+//        }
+//    }
 }

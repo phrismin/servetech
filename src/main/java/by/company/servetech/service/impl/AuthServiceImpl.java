@@ -1,6 +1,6 @@
 package by.company.servetech.service.impl;
 
-import by.company.servetech.config.security.service.JwtService;
+import by.company.servetech.config.security.JwtProvider;
 import by.company.servetech.dto.LoginRequest;
 import by.company.servetech.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtProvider jwtProvider;
 
     @Autowired
     private AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -33,6 +33,6 @@ public class AuthServiceImpl implements AuthService {
 //        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtService.generateToken(authentication);
+        return jwtProvider.generateToken(authentication);
     }
 }

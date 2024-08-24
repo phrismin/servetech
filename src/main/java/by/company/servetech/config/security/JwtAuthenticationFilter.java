@@ -1,6 +1,5 @@
 package by.company.servetech.config.security;
 
-import by.company.servetech.config.security.service.JwtService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtProvider jwtProvider;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -32,11 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String login = jwtService.extractLogin(jwtToken);
+        String login = jwtProvider.extractLogin(jwtToken);
         if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(login);
 
-            if (jwtService.isValidJwtToken(jwtToken, userDetails)) {
+            if (jwtProvider.isValidJwtToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         login,
                         null);

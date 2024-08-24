@@ -1,6 +1,5 @@
-package by.company.servetech.config.security.service.impl;
+package by.company.servetech.config.security;
 
-import by.company.servetech.config.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class JwtServiceImpl implements JwtService {
+public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
