@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,23 +43,35 @@ public class UserServiceImpl implements UserService {
         return save(user, dto);
     }
 
-    public boolean deleteUserById(Integer id) {
+    public void deleteUserById(Integer id) {
         userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         userRepository.deleteById(id);
-        return true;
     }
 
-    public List<User> getUsers() {
+    public List<UserDto> getUsers() {
         //TODO асинхронно сделать рассылку
-        stompService.mail();
-        return userRepository.findAll();
+//        stompService.mail();
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getLogin(),
+                        null,
+                        user.getFullName(),
+                        user.getGender()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public UserDto getUserByLogin(String login) {
         User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new UserDto(user.getId(), user.getLogin(), null, user.getFullName(), user.getGender());
+    }
+
+    @Override
+    public void deleteUsersInRange(Integer idUserFrom, Integer idUserTo) {
+        userRepository.deleteUsersInRange(idUserFrom, idUserTo);
     }
 
 
@@ -68,6 +81,11 @@ public class UserServiceImpl implements UserService {
         user.setFullName(dto.getFullName());
         user.setGender(dto.getGender());
         User saveUser = userRepository.save(user);
-        return new UserDto(saveUser.getId(), saveUser.getLogin(), null, saveUser.getFullName(), saveUser.getGender());
+        return new UserDto(
+                saveUser.getId(),
+                saveUser.getLogin(),
+                null,
+                saveUser.getFullName(),
+                saveUser.getGender());
     }
 }

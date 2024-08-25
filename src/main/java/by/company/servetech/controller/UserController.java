@@ -1,7 +1,6 @@
 package by.company.servetech.controller;
 
 import by.company.servetech.dto.UserDto;
-import by.company.servetech.model.User;
 import by.company.servetech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +30,26 @@ public class UserController {
     //TODO что вернуть
     //удаление пользователя
     @DeleteMapping("/delete/{id}")
-    public boolean deleteUserById(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable Integer id) {
         userService.deleteUserById(id);
-        return true;
+        return ResponseEntity.ok().build();
     }
 
     //список пользователей
-    @PostMapping("/getUsers")
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.getUsers();
-        template.convertAndSend("/topic/users", users);
-        return ResponseEntity.ok(users);
+//    @MessageMapping("/topic.getUsers")
+//    @SendTo("/topic/public")
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<UserDto>> getUsers() {
+        List<UserDto> userDtoList = userService.getUsers();
+//        template.convertAndSend("/topic/users", users);
+        return ResponseEntity.ok(userDtoList);
+    }
+
+    //TODO return
+    @GetMapping("/deleteUsers")
+    public ResponseEntity<?> deleteUsersInRange(@RequestParam Integer idUserFrom,
+                                                @RequestParam Integer idUserTo) {
+        userService.deleteUsersInRange(idUserFrom, idUserTo);
+        return ResponseEntity.ok().build();
     }
 }
