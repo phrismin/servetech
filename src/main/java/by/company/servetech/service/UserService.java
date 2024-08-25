@@ -7,12 +7,10 @@ import java.util.List;
 
 public interface UserService {
 
-    User saveUser(UserDto dto);
+    UserDto editUser(UserDto dto);
     UserDto createUser(UserDto dto);
     boolean deleteUserById(Integer id);
     List<User> getUsers();
 
     User getUserByLogin(String login);
-
-    UserDto registration(UserDto dto);
 }

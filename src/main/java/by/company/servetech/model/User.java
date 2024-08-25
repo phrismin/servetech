@@ -35,6 +35,10 @@ public class User implements UserDetails {
     @Column(name = "gender")
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
+
     public User() {
     }
 
@@ -113,5 +117,13 @@ public class User implements UserDetails {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

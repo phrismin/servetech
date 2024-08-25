@@ -22,19 +22,22 @@ public class UserController {
     @Autowired
     private SimpMessagingTemplate template;
 
-    @PostMapping("/save")
-    public ResponseEntity<User> saveUser(@RequestBody @Valid UserDto dto) {
-        User user = userService.saveUser(dto);
-        return ResponseEntity.ok(user);
+    //редактирование пользователя
+    @PostMapping("/edit")
+    public ResponseEntity<UserDto> editUser(@RequestBody @Valid UserDto dto) {
+        UserDto userDto = userService.editUser(dto);
+        return ResponseEntity.ok(userDto);
     }
 
     //TODO что вернуть
+    //удаление пользователя(деактивация)
     @DeleteMapping("/delete/{id}")
     public boolean deleteUserById(@PathVariable Integer id) {
         userService.deleteUserById(id);
         return true;
     }
 
+    //список пользователей
     @PostMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getUsers();

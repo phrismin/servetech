@@ -1,21 +1,25 @@
 package by.company.servetech;
 
-import by.company.servetech.dto.UserDto;
-import by.company.servetech.model.Gender;
-import by.company.servetech.model.User;
-import by.company.servetech.service.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
 public class ServetechApplication {
 
+    private static String[] arguments;
+
     public static void main(String[] args) {
+        arguments = args;
         SpringApplication.run(ServetechApplication.class, args);
+    }
+
+    public static void shutdown() {
+        ConfigurableApplicationContext ctx = SpringApplication.run(ServetechApplication.class, arguments);
+        int exitCode = SpringApplication.exit(ctx, () -> 0);
+        System.exit(exitCode);
     }
 
 //    @Bean

@@ -19,23 +19,23 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private UserService userService;
-
+    //вход в систему под созданным пользователем
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
         String jwtToken = authService.authenticate(loginRequest);
         return ResponseEntity.ok(new JwtResponse().token(jwtToken));
     }
 
+    //создание пользователя
     @PostMapping("/signin")
     public ResponseEntity<UserDto> registration(@RequestBody UserDto dto) {
-        UserDto result = userService.createUser(dto);
+        UserDto result = authService.registration(dto);
         return ResponseEntity.ok(result);
     }
 
 
     //TODO
+    //выход из системы
     @PostMapping("/exit")
     public ResponseEntity<?> exit() {
         return null;
