@@ -20,9 +20,6 @@ public class AuthServiceImpl implements AuthService {
     private JwtProvider jwtProvider;
 
     @Autowired
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -44,5 +41,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDto registration(UserDto dto) {
         return userService.createUser(dto);
+    }
+
+    @Override
+    public void logout() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(principal.toString());
+        System.out.println(name);
     }
 }

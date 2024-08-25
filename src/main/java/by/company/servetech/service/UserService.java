@@ -12,5 +12,5 @@ public interface UserService {
     boolean deleteUserById(Integer id);
     List<User> getUsers();
 
-    User getUserByLogin(String login);
+    UserDto getUserByLogin(String login);
 }

@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class UserController {
     }
 
     //TODO что вернуть
-    //удаление пользователя(деактивация)
+    //удаление пользователя
     @DeleteMapping("/delete/{id}")
     public boolean deleteUserById(@PathVariable Integer id) {
         userService.deleteUserById(id);

@@ -3,9 +3,7 @@ package by.company.servetech.controller;
 import by.company.servetech.dto.JwtResponse;
 import by.company.servetech.dto.LoginRequest;
 import by.company.servetech.dto.UserDto;
-import by.company.servetech.model.User;
 import by.company.servetech.service.AuthService;
-import by.company.servetech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +34,9 @@ public class AuthController {
 
     //TODO
     //выход из системы
-    @PostMapping("/exit")
-    public ResponseEntity<?> exit() {
-        return null;
+    @PostMapping("/logout")
+    public void logout() {
+        authService.logout();
     }
 
     @GetMapping("/test")

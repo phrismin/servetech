@@ -31,22 +31,20 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User with this login already exists");
         }
         User user = new User();
-        user.setLogin(dto.getLogin());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setFullName(dto.getFullName());
-        user.setGender(dto.getGender());
         user.setStatus(Status.ACTIVE);
-        User saveUser = userRepository.save(user);
-        return new UserDto(saveUser.getLogin(), null, saveUser.getFullName(), saveUser.getGender());
+        return save(user, dto);
     }
 
     @Override
     public UserDto editUser(UserDto dto) {
-        return createUser(dto);
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return save(user, dto);
     }
 
-
     public boolean deleteUserById(Integer id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         userRepository.deleteById(id);
         return true;
     }
@@ -58,8 +56,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByLogin(String login) {
+    public UserDto getUserByLogin(String login) {
         User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return user;
+        return new UserDto(user.getId(), user.getLogin(), null, user.getFullName(), user.getGender());
+    }
+
+
+    private UserDto save(User user, UserDto dto) {
+        user.setLogin(dto.getLogin());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setFullName(dto.getFullName());
+        user.setGender(dto.getGender());
+        User saveUser = userRepository.save(user);
+        return new UserDto(saveUser.getId(), saveUser.getLogin(), null, saveUser.getFullName(), saveUser.getGender());
     }
 }

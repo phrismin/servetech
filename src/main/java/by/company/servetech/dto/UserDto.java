@@ -4,6 +4,8 @@ import by.company.servetech.model.Gender;
 
 public class UserDto {
 
+    private int id;
+
     private String login;
 
     private String password;
@@ -12,7 +14,8 @@ public class UserDto {
 
     private Gender gender;
 
-    public UserDto(String login, String password, String fullName, Gender gender) {
+    public UserDto(int id, String login, String password, String fullName, Gender gender) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.fullName = fullName;
@@ -20,6 +23,10 @@ public class UserDto {
     }
 
     public UserDto() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -34,23 +41,11 @@ public class UserDto {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public Gender getGender() {
         return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 }
