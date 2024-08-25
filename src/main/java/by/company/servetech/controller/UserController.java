@@ -45,8 +45,7 @@ public class UserController {
         return ResponseEntity.ok(userDtoList);
     }
 
-    //TODO return
-    @GetMapping("/deleteUsers")
+    @DeleteMapping("/deleteUsers")
     public ResponseEntity<?> deleteUsersInRange(@RequestParam Integer idUserFrom,
                                                 @RequestParam Integer idUserTo) {
         userService.deleteUsersInRange(idUserFrom, idUserTo);

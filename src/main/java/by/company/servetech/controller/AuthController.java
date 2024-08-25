@@ -26,7 +26,7 @@ public class AuthController {
 
     //создание пользователя
     @PostMapping("/signin")
-    public ResponseEntity<UserDto> registration(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> registration(@RequestBody @Valid UserDto dto) {
         UserDto result = authService.registration(dto);
         return ResponseEntity.ok(result);
     }

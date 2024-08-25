@@ -31,6 +31,15 @@ public class JwtProvider {
                 .compact();
     }
 
+    public String generateToken(String login) {
+        return Jwts.builder()
+                .subject(login)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(getSignKey())
+                .compact();
+    }
+
     public String extractLogin(String jwtToken) {
         return Jwts
                 .parser()

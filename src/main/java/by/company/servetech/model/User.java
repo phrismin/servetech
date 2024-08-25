@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,29 +16,21 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @NotEmpty(message = "Login cannot be empty")
     @Column(name = "login", unique = true, nullable = false)
-//    @Size(max = 50, message = "Login cannot be more 50 symbols")
     private String login;
 
-    //TODO регулярное
-//    @Pattern(regexp = "(\\?:.*\\d.*\\d.*\\d.*[^0-9\\s].*|.*[^0-9\\s].*\\d.*\\d.*\\d.*)",
-//            message = "Password must contain special characters and 3 numbers")
-//    @Size(min = 7,  message = "Password cannot be less 7 symbols")
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "full_name", nullable = false)
-//    @Size(max = 256,  message = "FullName cannot be more 256 symbols")
     private String fullName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status;
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     public User() {
     }
@@ -47,6 +40,14 @@ public class User implements UserDetails {
         this.password = password;
         this.fullName = fullName;
         this.gender = gender;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     public Integer getId() {
@@ -117,13 +118,5 @@ public class User implements UserDetails {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 }

@@ -1,7 +1,6 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.dto.UserDto;
-import by.company.servetech.model.Status;
 import by.company.servetech.model.User;
 import by.company.servetech.repository.UserRepository;
 import by.company.servetech.service.StompService;
@@ -26,21 +25,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private StompService stompService;
 
-    //TODO converter, через абстрактный класс
-    public UserDto createUser(UserDto dto) {
-        if (userRepository.existsByLogin(dto.getLogin())) {
-            throw new RuntimeException("User with this login already exists");
-        }
-        User user = new User();
-        user.setStatus(Status.ACTIVE);
-        return save(user, dto);
-    }
 
     @Override
     public UserDto editUser(UserDto dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return save(user, dto);
+                .orElseThrow(() -> new IllegalArgumentException("User with this login already exists"));
+        user.setLogin(dto.getLogin());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setFullName(dto.getFullName());
+        user.setGender(dto.getGender());
+        User saveUser = userRepository.save(user);
+        return new UserDto(
+                saveUser.getId(),
+                saveUser.getLogin(),
+                null,
+                saveUser.getFullName(),
+                saveUser.getGender());
     }
 
     public void deleteUserById(Integer id) {
@@ -72,20 +72,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUsersInRange(Integer idUserFrom, Integer idUserTo) {
         userRepository.deleteUsersInRange(idUserFrom, idUserTo);
-    }
-
-
-    private UserDto save(User user, UserDto dto) {
-        user.setLogin(dto.getLogin());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setFullName(dto.getFullName());
-        user.setGender(dto.getGender());
-        User saveUser = userRepository.save(user);
-        return new UserDto(
-                saveUser.getId(),
-                saveUser.getLogin(),
-                null,
-                saveUser.getFullName(),
-                saveUser.getGender());
     }
 }
