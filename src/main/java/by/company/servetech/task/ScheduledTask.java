@@ -26,8 +26,7 @@ public class ScheduledTask {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-//    @Scheduled(cron = "0 */10 * * * *")
-//    @Scheduled(fixedDelay = 15000)
+    @Scheduled(cron = "0 */10 * * * *")
     public void checkStopServerTime() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime dateTimeStop = LocalDateTime.parse(stopTime, formatter);

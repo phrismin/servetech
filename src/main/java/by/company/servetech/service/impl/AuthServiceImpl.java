@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -39,12 +41,13 @@ public class AuthServiceImpl implements AuthService {
         String login = dto.getLogin();
         String password = dto.getPassword();
 
-       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = jwtProvider.generateToken(user.getLogin());
-        saveUserToken(user);
+        revokeAllToken(user);
+        saveToken(user);
         return token;
     }
 
@@ -60,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         user.setGender(dto.getGender());
         User saveUser = userRepository.save(user);
 
-        saveUserToken(saveUser);
+        saveToken(saveUser);
 
         return new UserDto(
                 saveUser.getId(),
@@ -69,7 +72,6 @@ public class AuthServiceImpl implements AuthService {
                 saveUser.getFullName(),
                 saveUser.getGender());
     }
-
 
     //TODO
     @Override
@@ -80,7 +82,19 @@ public class AuthServiceImpl implements AuthService {
         System.out.println(name);
     }
 
-    private void saveUserToken(User user) {
+    private void revokeAllToken(User user) {
+        List<Token> tokens = tokenRepository.findAllValidTokensByUser(user.getId());
+        if (tokens.isEmpty()) {
+            return;
+        }
+        tokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(tokens);
+    }
+
+    private void saveToken(User user) {
         Token token = new Token();
         token.setUser(user);
         token.setToken(jwtProvider.generateToken(user.getLogin()));
