@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDto> getUsers() {
-        //TODO асинхронно сделать рассылку
         return userRepository.findAll()
                 .stream()
                 .map(user -> new UserDto(
