@@ -47,8 +47,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new UserNotFoundException(login));
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException(login));
 
         String token = jwtProvider.generateToken(user.getLogin());
         revokeAllToken(user);

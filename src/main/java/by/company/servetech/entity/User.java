@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(name = "gender")
     private Gender gender;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Token> tokens;
 
     public User() {

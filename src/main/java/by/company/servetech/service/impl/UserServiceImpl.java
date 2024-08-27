@@ -1,6 +1,7 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.dto.UserDto;
+import by.company.servetech.exceptions.InvalidArgumentException;
 import by.company.servetech.exceptions.UserNotFoundException;
 import by.company.servetech.entity.User;
 import by.company.servetech.repository.UserRepository;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto editUser(UserDto dto) {
-        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException(dto.getLogin()));
+        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new InvalidArgumentException(dto.getLogin()));
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName());
