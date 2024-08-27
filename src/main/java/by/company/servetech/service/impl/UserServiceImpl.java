@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         return new UserDto(
                 user.getId(),
                 user.getLogin(),
-                null,
                 user.getFullName(),
                 user.getGender());
     }
@@ -48,7 +47,6 @@ public class UserServiceImpl implements UserService {
                 .map(user -> new UserDto(
                         user.getId(),
                         user.getLogin(),
-                        null,
                         user.getFullName(),
                         user.getGender()))
                 .collect(Collectors.toList());

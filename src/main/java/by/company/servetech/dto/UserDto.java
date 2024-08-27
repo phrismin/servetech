@@ -34,6 +34,13 @@ public class UserDto {
         this.gender = gender;
     }
 
+    public UserDto(int id, String login, String fullName, Gender gender) {
+        this.id = id;
+        this.login = login;
+        this.fullName = fullName;
+        this.gender = gender;
+    }
+
     public UserDto() {
     }
 

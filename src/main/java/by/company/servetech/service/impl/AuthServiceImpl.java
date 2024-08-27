@@ -73,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
         return new UserDto(
                 saveUser.getId(),
                 saveUser.getLogin(),
-                null,
                 saveUser.getFullName(),
                 saveUser.getGender());
     }

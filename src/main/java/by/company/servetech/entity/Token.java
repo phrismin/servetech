@@ -1,6 +1,8 @@
 package by.company.servetech.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(schema = "public", name = "tokens")
@@ -17,6 +19,7 @@ public class Token {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public Token() {
