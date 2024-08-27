@@ -12,7 +12,5 @@ public interface UserService {
 
     List<UserDto> getUsers();
 
-    UserDto getUserByLogin(String login);
-
     void deleteUsersInRange(Integer idUserFrom, Integer idUserTo);
 }

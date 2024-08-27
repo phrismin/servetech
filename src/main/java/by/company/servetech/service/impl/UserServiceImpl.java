@@ -57,12 +57,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByLogin(String login) {
-        User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new UserDto(user.getId(), user.getLogin(), null, user.getFullName(), user.getGender());
-    }
-
-    @Override
     public void deleteUsersInRange(Integer idUserFrom, Integer idUserTo) {
         userRepository.deleteUsersInRange(idUserFrom, idUserTo);
     }
