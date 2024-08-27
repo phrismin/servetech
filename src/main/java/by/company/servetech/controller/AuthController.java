@@ -1,7 +1,7 @@
 package by.company.servetech.controller;
 
 import by.company.servetech.dto.JwtResponseDto;
-import by.company.servetech.dto.LoginRequestDto;
+import by.company.servetech.dto.LoginDto;
 import by.company.servetech.dto.UserDto;
 import by.company.servetech.service.AuthService;
 import jakarta.validation.Valid;
@@ -18,8 +18,8 @@ public class AuthController {
 
     //вход в систему под созданным пользователем
     @PostMapping("/login")
-    public ResponseEntity<JwtResponseDto> authenticate(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-        String jwtToken = authService.authenticate(loginRequestDto);
+    public ResponseEntity<JwtResponseDto> authenticate(@Valid @RequestBody LoginDto loginDto) {
+        String jwtToken = authService.authenticate(loginDto);
         return ResponseEntity.ok(new JwtResponseDto().token(jwtToken));
     }
 
