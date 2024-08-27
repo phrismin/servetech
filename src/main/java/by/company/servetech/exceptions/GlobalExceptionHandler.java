@@ -1,8 +1,6 @@
-package by.company.servetech;
+package by.company.servetech.exceptions;
 
 import by.company.servetech.dto.ErrorResponseDto;
-import by.company.servetech.exceptions.InvalidArgumentException;
-import by.company.servetech.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
