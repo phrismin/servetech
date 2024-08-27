@@ -1,9 +1,9 @@
 package by.company.servetech.dto;
 
-public class JwtResponseDto {
+public class LoginResponseDto {
     private String token;
 
-    public JwtResponseDto token(String token) {
+    public LoginResponseDto token(String token) {
         this.token = token;
         return this;
     }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class LoginDto {
+public class LoginRequestDto {
     @NotEmpty(message = "Login cannot empty")
     @Size(max = 50, message = "Login cannot be more 50 symbols")
     private String login;

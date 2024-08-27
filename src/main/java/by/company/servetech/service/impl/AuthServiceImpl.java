@@ -1,7 +1,7 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.config.security.JwtProvider;
-import by.company.servetech.dto.LoginDto;
+import by.company.servetech.dto.LoginRequestDto;
 import by.company.servetech.dto.UserDto;
 import by.company.servetech.exceptions.InvalidArgumentException;
 import by.company.servetech.exceptions.UserNotFoundException;
@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String authenticate(LoginDto dto) {
+    public String authenticate(LoginRequestDto dto) {
         String login = dto.getLogin();
         String password = dto.getPassword();
 
