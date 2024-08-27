@@ -9,23 +9,32 @@ import java.net.http.HttpResponse;
 public class ClientTest {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVjeCIsImlhdCI6MTcyNDY2MjIyMywiZXhwIjoxNzI0NjY1MjIzfQ.WGoW7KKCA_JF9gRfTrYbOzmyVdA6UfqsRFO60dTvhPU";
+        HttpClient client = HttpClient.newHttpClient();
+
         String body = """
                             {
                             "login":"alexx",
                             "password":"p/32432csvd",
-                            "fullName": "Alex van alec",
+                            "fullName": "Test van Test",
                             "gender": "MALE"
                             }
                             """;
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9000/api/user/create"))
+        HttpRequest requestSignin = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9000/api/auth/signin"))
+                .header("Content-type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(requestSignin, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response);
+
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4eHgiLCJpYXQiOjE3MjQ3NzgyMDAsImV4cCI6MTcyNDc4MTIwMH0.3j4fhaVIalSxWp392pWaW5ZjiVCw1UbjXVJdQxLNEvc";
+        HttpRequest requestLogin = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9000/api/auth/login"))
+                .header("Content-type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .header("Authorization", token)
                 .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        response = client.send(requestLogin, HttpResponse.BodyHandlers.ofString());
         System.out.println(response);
     }
 }
