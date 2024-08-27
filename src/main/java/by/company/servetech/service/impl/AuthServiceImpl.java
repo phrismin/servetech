@@ -42,13 +42,10 @@ public class AuthServiceImpl implements AuthService {
     public String authenticate(LoginRequestDto dto) {
         String login = dto.getLogin();
         String password = dto.getPassword();
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         User user = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException(login));
-
         String token = jwtProvider.generateToken(user.getLogin());
         revokeAllToken(user);
         saveToken(user);
@@ -60,16 +57,13 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByLogin(dto.getLogin())) {
             throw new InvalidArgumentException(dto.getLogin());
         }
-
         User user = new User();
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName());
         user.setGender(dto.getGender());
         User saveUser = userRepository.save(user);
-
         saveToken(saveUser);
-
         return new UserDto(
                 saveUser.getId(),
                 saveUser.getLogin(),

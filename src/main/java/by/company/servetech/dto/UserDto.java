@@ -1,6 +1,7 @@
 package by.company.servetech.dto;
 
 import by.company.servetech.entity.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -17,6 +18,7 @@ public class UserDto {
     @Pattern(regexp = "(\\?:.*\\d.*\\d.*\\d.*[^0-9\\s].*|.*[^0-9\\s].*\\d.*\\d.*\\d.*)",
             message = "Password must contain special characters and 3 numbers")
     @Size(min = 7,  message = "Password cannot be less 7 symbols")
+    @JsonIgnore
     private String password;
 
     @NotEmpty(message = "FullName cannot empty")
