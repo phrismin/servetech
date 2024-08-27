@@ -2,7 +2,7 @@ package by.company.servetech.service.impl;
 
 import by.company.servetech.dto.UserDto;
 import by.company.servetech.exceptions.UserNotFoundException;
-import by.company.servetech.model.User;
+import by.company.servetech.entity.User;
 import by.company.servetech.repository.UserRepository;
 import by.company.servetech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

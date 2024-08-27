@@ -1,4 +1,4 @@
-package by.company.servetech.model;
+package by.company.servetech.entity;
 
 public enum Gender {
     MALE(1, "Male"),

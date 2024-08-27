@@ -1,6 +1,6 @@
 package by.company.servetech.config.security;
 
-import by.company.servetech.model.Token;
+import by.company.servetech.entity.Token;
 import by.company.servetech.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

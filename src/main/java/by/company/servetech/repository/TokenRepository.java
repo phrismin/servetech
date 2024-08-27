@@ -1,6 +1,6 @@
 package by.company.servetech.repository;
 
-import by.company.servetech.model.Token;
+import by.company.servetech.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

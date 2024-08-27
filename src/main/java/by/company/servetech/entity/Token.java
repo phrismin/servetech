@@ -1,4 +1,4 @@
-package by.company.servetech.model;
+package by.company.servetech.entity;
 
 import jakarta.persistence.*;
 
