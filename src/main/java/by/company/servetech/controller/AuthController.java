@@ -30,17 +30,4 @@ public class AuthController {
         UserDto result = authService.registration(dto);
         return ResponseEntity.ok(result);
     }
-
-
-    //TODO
-    //выход из системы
-    @PostMapping("/logout")
-    public void logout() {
-        authService.logout();
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "";
-    }
 }

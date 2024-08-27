@@ -25,9 +25,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenRepository tokenRepository;
-
-    @Autowired
     private StompService stompService;
 
 
@@ -35,27 +32,16 @@ public class UserServiceImpl implements UserService {
     public UserDto editUser(UserDto dto) {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User with this login already exists"));
-        User saveUser = saveUser(user, dto);
+        user.setLogin(dto.getLogin());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setFullName(dto.getFullName());
+        user.setGender(dto.getGender());
         return new UserDto(
-                saveUser.getId(),
-                saveUser.getLogin(),
+                user.getId(),
+                user.getLogin(),
                 null,
-                saveUser.getFullName(),
-                saveUser.getGender());
-    }
-
-    @Override
-    public UserDto createUser(UserDto dto) {
-        userRepository.findById(dto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with this login already exists"));
-        User saveUser = saveUser(new User(), dto);
-        saveToken(saveUser);
-        return new UserDto(
-                saveUser.getId(),
-                saveUser.getLogin(),
-                null,
-                saveUser.getFullName(),
-                saveUser.getGender());
+                user.getFullName(),
+                user.getGender());
     }
 
     public void deleteUserById(Integer id) {
@@ -87,21 +73,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUsersInRange(Integer idUserFrom, Integer idUserTo) {
         userRepository.deleteUsersInRange(idUserFrom, idUserTo);
-    }
-
-    private User saveUser(User user, UserDto dto) {
-        user.setLogin(dto.getLogin());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setFullName(dto.getFullName());
-        user.setGender(dto.getGender());
-        return userRepository.save(user);
-    }
-
-    private Token saveToken(User user) {
-        Token token = new Token();
-        token.setUser(user);
-        token.setExpired(false);
-        token.setRevoked(false);
-        return tokenRepository.save(token);
     }
 }

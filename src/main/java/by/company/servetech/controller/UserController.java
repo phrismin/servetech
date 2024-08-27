@@ -27,14 +27,6 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    //создание пользователя
-    @PostMapping("/create")
-    public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto dto) {
-        UserDto userDto = userService.createUser(dto);
-        return ResponseEntity.ok(userDto);
-    }
-
-
     //удаление пользователя
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Integer id) {

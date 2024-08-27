@@ -11,7 +11,6 @@ import by.company.servetech.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,15 +70,6 @@ public class AuthServiceImpl implements AuthService {
                 null,
                 saveUser.getFullName(),
                 saveUser.getGender());
-    }
-
-    //TODO
-    @Override
-    public void logout() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(principal.toString());
-        System.out.println(name);
     }
 
     private void revokeAllToken(User user) {

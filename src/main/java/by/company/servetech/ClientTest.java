@@ -6,7 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Client {
+public class ClientTest {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVjeCIsImlhdCI6MTcyNDY2MjIyMywiZXhwIjoxNzI0NjY1MjIzfQ.WGoW7KKCA_JF9gRfTrYbOzmyVdA6UfqsRFO60dTvhPU";
