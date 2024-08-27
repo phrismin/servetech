@@ -43,8 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     .orElse(false);
             if (jwtProvider.isValidJwtToken(jwtToken, userDetails) && isValidToken) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        login,
-                        null);
+                        login, null, null);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

@@ -1,10 +1,9 @@
 package by.company.servetech.dto;
 
 import by.company.servetech.model.Gender;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class UserDto {
 
@@ -21,7 +20,7 @@ public class UserDto {
     @Size(max = 256,  message = "FullName cannot be more 256 symbols")
     private String fullName;
 
-    @NotEmpty
+    @NotNull
     private Gender gender;
 
     public UserDto(int id, String login, String password, String fullName, Gender gender) {

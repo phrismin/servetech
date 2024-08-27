@@ -1,14 +1,13 @@
 package by.company.servetech.controller;
 
-import by.company.servetech.dto.JwtResponse;
-import by.company.servetech.dto.LoginRequest;
+import by.company.servetech.dto.JwtResponseDto;
+import by.company.servetech.dto.LoginRequestDto;
 import by.company.servetech.dto.UserDto;
 import by.company.servetech.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,9 +18,9 @@ public class AuthController {
 
     //вход в систему под созданным пользователем
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
-        String jwtToken = authService.authenticate(loginRequest);
-        return ResponseEntity.ok(new JwtResponse().token(jwtToken));
+    public ResponseEntity<JwtResponseDto> authenticate(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        String jwtToken = authService.authenticate(loginRequestDto);
+        return ResponseEntity.ok(new JwtResponseDto().token(jwtToken));
     }
 
     //создание пользователя

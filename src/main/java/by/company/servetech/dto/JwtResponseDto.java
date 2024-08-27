@@ -1,10 +1,9 @@
 package by.company.servetech.dto;
 
-public class JwtResponse {
+public class JwtResponseDto {
     private String token;
-    private String type = "Bearer ";
 
-    public JwtResponse token(String token) {
+    public JwtResponseDto token(String token) {
         this.token = token;
         return this;
     }

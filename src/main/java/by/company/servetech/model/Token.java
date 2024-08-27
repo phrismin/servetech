@@ -3,7 +3,7 @@ package by.company.servetech.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tokens")
+@Table(schema = "public", name = "tokens")
 public class Token {
     @Id
     @GeneratedValue

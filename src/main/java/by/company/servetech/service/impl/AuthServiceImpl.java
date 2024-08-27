@@ -1,8 +1,10 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.config.security.JwtProvider;
-import by.company.servetech.dto.LoginRequest;
+import by.company.servetech.dto.LoginRequestDto;
 import by.company.servetech.dto.UserDto;
+import by.company.servetech.exceptions.InvalidArgumentException;
+import by.company.servetech.exceptions.UserNotFoundException;
 import by.company.servetech.model.Token;
 import by.company.servetech.model.User;
 import by.company.servetech.repository.TokenRepository;
@@ -11,7 +13,8 @@ import by.company.servetech.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +39,16 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String authenticate(LoginRequest dto) {
+    public String authenticate(LoginRequestDto dto) {
         String login = dto.getLogin();
         String password = dto.getPassword();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login, password);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(login));
 
         String token = jwtProvider.generateToken(user.getLogin());
         revokeAllToken(user);
@@ -53,8 +59,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDto registration(UserDto dto) {
         if (userRepository.existsByLogin(dto.getLogin())) {
-            throw new IllegalArgumentException("User with this login already exists");
+            throw new InvalidArgumentException(dto.getLogin());
         }
+
         User user = new User();
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));

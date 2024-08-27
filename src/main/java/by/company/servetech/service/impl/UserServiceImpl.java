@@ -1,11 +1,11 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.dto.UserDto;
+import by.company.servetech.exceptions.UserNotFoundException;
 import by.company.servetech.model.User;
 import by.company.servetech.repository.UserRepository;
 import by.company.servetech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto editUser(UserDto dto) {
-        User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with this login already exists"));
+        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException(dto.getLogin()));
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName());
@@ -38,8 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteUserById(Integer id) {
-        userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
     }
 

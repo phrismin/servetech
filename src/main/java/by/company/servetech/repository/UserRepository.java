@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByLogin(String login);
+
     Boolean existsByLogin(String login);
 
     @Query(value = "select public.delete_users_in_range(:startId, :endId)", nativeQuery = true)

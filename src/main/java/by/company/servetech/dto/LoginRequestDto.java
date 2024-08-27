@@ -1,6 +1,6 @@
 package by.company.servetech.dto;
 
-public class LoginRequest {
+public class LoginRequestDto {
     private String login;
     private String password;
 
