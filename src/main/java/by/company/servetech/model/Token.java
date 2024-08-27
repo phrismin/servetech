@@ -12,12 +12,8 @@ public class Token {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "expired")
-    private boolean expired;
-
     @Column(name = "revoked")
     private boolean revoked;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -26,10 +22,9 @@ public class Token {
     public Token() {
     }
 
-    public Token(Integer id, String token, boolean expired, boolean revoked, User user) {
+    public Token(Integer id, String token, boolean revoked, User user) {
         this.id = id;
         this.token = token;
-        this.expired = expired;
         this.revoked = revoked;
         this.user = user;
     }
@@ -48,14 +43,6 @@ public class Token {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public boolean isExpired() {
-        return expired;
-    }
-
-    public void setExpired(boolean expired) {
-        this.expired = expired;
     }
 
     public boolean isRevoked() {

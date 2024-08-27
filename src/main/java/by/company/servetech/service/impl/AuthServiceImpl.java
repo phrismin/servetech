@@ -77,10 +77,7 @@ public class AuthServiceImpl implements AuthService {
         if (tokens.isEmpty()) {
             return;
         }
-        tokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
+        tokens.forEach(token -> token.setRevoked(true));
         tokenRepository.saveAll(tokens);
     }
 
@@ -88,7 +85,6 @@ public class AuthServiceImpl implements AuthService {
         Token token = new Token();
         token.setUser(user);
         token.setToken(jwtProvider.generateToken(user.getLogin()));
-        token.setExpired(false);
         token.setRevoked(false);
         tokenRepository.save(token);
     }

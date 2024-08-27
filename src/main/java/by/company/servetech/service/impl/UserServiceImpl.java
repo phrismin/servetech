@@ -1,11 +1,8 @@
 package by.company.servetech.service.impl;
 
 import by.company.servetech.dto.UserDto;
-import by.company.servetech.model.Token;
 import by.company.servetech.model.User;
-import by.company.servetech.repository.TokenRepository;
 import by.company.servetech.repository.UserRepository;
-import by.company.servetech.service.StompService;
 import by.company.servetech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,10 +20,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private StompService stompService;
-
 
     @Override
     public UserDto editUser(UserDto dto) {
@@ -52,7 +45,6 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDto> getUsers() {
         //TODO асинхронно сделать рассылку
-//        stompService.mail();
         return userRepository.findAll()
                 .stream()
                 .map(user -> new UserDto(
